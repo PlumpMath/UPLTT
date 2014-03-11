@@ -1,0 +1,89 @@
+﻿body
+{
+}
+
+p {
+    margin: 0;
+}
+object {
+    width:100%;
+    height:100%;
+}
+input#sName {
+    width:100px;
+}
+table {
+    border-collapse:collapse;
+}
+    table#searched td {
+        padding:0;
+        margin:0;
+        font-size:12px;
+    }   
+table#timeTable {
+    background-color: #fefefe;
+    width:100%;
+}
+table#timeTable tr td:first-child {
+    width:50px;
+}
+    table#timeTable tr {
+        margin:0;
+        padding:0;
+    }
+        table#timeTable tr td {
+            margin:0;
+            padding:0;
+        }
+table tr:not(:first-child){
+    height:10px;
+}
+table td, table th {
+    border:1px solid black;
+    text-align:center;
+}
+div#combine {
+    position:relative;
+}
+div.layer {
+    top:0;
+    color:black;
+    font-size:12px;
+    opacity:0.6;
+}
+table#resultTable {
+    width:400px;
+}
+    table#resultTable tr:not(:last-child) td:nth-child(2) {
+        text-align: left;
+        padding-left:10px;
+    }
+
+table#wanted {
+    font-size:12px;
+    width:100%;
+}
+table#wanted th:nth-child(1) {
+    width:6%;
+}
+table#wanted th:nth-child(2) {
+    width:8%;
+}
+table#wanted th:nth-child(3) {
+    width:25%;
+}
+table#wanted th:nth-child(4) {
+    width:3%;
+}
+table#wanted th:nth-child(5) {
+    width:3%;
+}
+table#wanted th:nth-child(6) {
+    width:30%;
+}
+table#wanted th:nth-child(7) {
+    width:5%;
+}
+table#wanted th:nth-child(8) {
+    width:20%;
+}
