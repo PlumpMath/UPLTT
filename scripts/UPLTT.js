@@ -1,5 +1,4 @@
-﻿var tableArr = [[, , , , ], [, , , , ], [, , , , ], [, , , , ], [, , , , ], [, , , , ], [, , , , ], [, , , , ], [, , , , ], [, , , , ], [, , , , ], [, , , , ], [, , , , ], [, , , , ], [, , , , ], [, , , , ], [, , , , ], [, , , , ], [, , , , ], [, , , , ]];
-function addWanted(no, name, score, time, dayTimeRoom, prof, etc) {
+﻿function addWanted(no, name, score, time, dayTimeRoom, prof, etc) {
     $("<tr />").append(
         $("<td />")
             .append($('<a href="javascript:">보임</a>').css("margin", "0 5px 0 5px").click(function () {
@@ -61,8 +60,9 @@ function addLayer(col, row, len, color, text) {
 }
 function resizeDupLayer(layer, colTdQry) {
     if (colTdQry == null)
-        colTdQry = "#timeTable tr:not(:first) td:nth-child(" + 1 + layer.parent().index() + ")"; 
+        colTdQry = "#timeTable tr:not(:first) td:nth-child(" + (1 + layer.parent().index()) + ")"; 
     var ind = $(colTdQry).find(".layer").index(layer);
+    layer.css("width", "100%").css("left","0%");
     var hit = layer.collision(colTdQry + " .layer:not(:eq(" + ind + "))");
     var twidth = 0;
     for (var i = 0; i < hit.length; i++) {
@@ -73,20 +73,25 @@ function resizeDupLayer(layer, colTdQry) {
     var firstWidth = Number(hit[0].style.width.replace("%", ""));
     if (twidth < 100) { //there's a hole to fit in
         layer.css("width", firstWidth + "%");
-        for (var i = 0; hit.length > 0; i++) {//find hole
-            layer.css("left", firstWidth * i + "%");
+        for (var i = 0; i <= hit.length; i++) {//find hole
+            layer.css("left", firstWidth *i + "%");
             hit = layer.collision(colTdQry + " .layer:not(:eq(" + ind + "))");
+            if (!hit) break;
+            else if (hit.length == 1)
+                if (Math.abs(Number(hit[0].style.left.replace("%", "")) - Number(layer.get(0).style.width.replace("%", "")) - Number(layer.get(0).style.left.replace("%", ""))) < 1)
+                    break;
         }
     } else { //no hole. resize all
-        var len = 1 / firstWidth * 100;
+        var len = hit.length; //1 / firstWidth * 100;
+        var width = 100 / (len + 1);
         for (var i = 0; i < hit.length; i++) {
             var o = $(hit[i]);
-            var marginLeft = Number(hit[i].style.marginLeft.replace("%", ""));
-            $(o).css("width", 100 / (len + 1) + "%")
-                .css("left", 100 / (len + 1) * (marginLeft / firstWidth) + "%");
+            //var left = Number(hit[i].style.left.replace("%", ""));
+            $(o).css("width", width + "%")
+                .css("left", width * (i + 1) + "%");// * (left / firstWidth) + "%");
         }
-        layer.css("width", 100 / (len + 1) + "%")
-            .css("left", 100 - (100 / (len + 1)) + "%");
+        layer.css("width", width + "%")
+            .css("left", "0%");//100 - (100 / (len + 1)) + "%");
     }
 }
 function HideToggleGrp() {
@@ -119,49 +124,7 @@ function showResult() {
     });
     $("table#resultTable td:last").text(totalScr);
 }
-function loadTest() {
-    addLayer(0, 12, 3, "red", "2094 컴퓨터구조론1");
-    addLayer(0, 1, 3, "red", "2095 컴퓨터구조론1");
-    addLayer(2, 15, 4, "orange", "3669 소프트웨어모델링및분석");
-    addLayer(0, 9, 3, "blue", "3672 프로그래밍언어론");
-    addLayer(0, 12, 3, "blue", "3673 프로그래밍언어론");
-    addLayer(1, 4, 3, "yellow", "3674 화일처리");
-    addLayer(1, 1, 3, "yellow", "3675 화일처리");
-    addLayer(0, 1, 3, "green", "3676 데이터통신");
-    addLayer(3, 4, 3, "green", "3677 데이터통신");
-    addLayer(0, 4, 3, "grey", "3775 운영체제");
-    addLayer(0, 9, 3, "grey", "3776 운영체제");
-
-    addLayer(3, 1, 2, "purple", "1061 야외스포츠(골프)");
-
-    addLayer(1, 5, 2, "indigo", "2090 자료구조");
-    addLayer(1, 12, 2, "indigo", "2091 자료구조");
-
-    addLayer(2, 12, 3, "red", "2094 컴퓨터구조론1");
-    addLayer(2, 1, 3, "red", "2095 컴퓨터구조론1");
-    addLayer(4, 1, 4, "orange", "3669 소프트웨어모델링및분석");
-    addLayer(2, 9, 3, "blue", "3672 프로그래밍언어론");
-    addLayer(2, 12, 3, "blue", "3673 프로그래밍언어론");
-    addLayer(3, 1, 3, "yellow", "3674 화일처리");
-    addLayer(4, 5, 3, "yellow", "3675 화일처리");
-    addLayer(2, 1, 3, "green", "3676 데이터통신");
-    addLayer(4, 9, 3, "green", "3677 데이터통신");
-    addLayer(2, 4, 3, "grey", "3775 운영체제");
-    addLayer(2, 9, 3, "grey", "3776 운영체제");
-
-    addLayer(3, 9, 2, "indigo", "2090 자료구조");
-    addLayer(3, 14, 2, "indigo", "2091 자료구조");
-
-    $("div.layer:contains(2095):first").click();
-    $("div.layer:contains(3673):first").click();
-    $("div.layer:contains(3674):first").click();
-    $("div.layer:contains(3675):first").click();
-    $("div.layer:contains(3677):first").click();
-    $("div.layer:contains(3776):first").click();
-    $("div.layer:contains(2090):first").click();
-    $("div.layer:contains(2091):first").click();
-}
-var colorArr = ["magenta", "blue", "aqua", "red", "yello", "plum", "purple", "green", "brown", "Khaki", "hotpink"];
+var colorArr = [];
 function makeREST(arr){
     var a=null,rst="?";
     while(a=arr.pop()){
@@ -170,6 +133,9 @@ function makeREST(arr){
     return rst;
 }
 $(document).ready(function () {
+    for (var i = 3; i >= 0; i--)
+        for (var j = 0; j < 9; j++)
+            colorArr.push('hsl(' + (j * 36) + ',' + (100 - i * 20) + '%,' + (50 - i * 20) + '%)');
     var url = 'http://kupis.konkuk.ac.kr/sugang/acd/cour/time/SeoulTimetableInfo.jsp';
     doExternalAjax(url);
     yqlAjax("http://www.konkuk.ac.kr/jsp/Intro/intro_05_02_tab01.jsp", function (data) {
@@ -201,7 +167,7 @@ $(document).ready(function () {
     $("button#searchButt").hide().click(function () {
         //ltYy=&ltShtm=&openSust=&pobtDiv=&cultCorsFld=&sbjtId=&sbjtNm=
         doExternalAjax(url + makeREST(["ltYy","ltShtm","openSust","pobtDiv"])+"sbjtId="+$("[name=sbjtId]").val()+
-            "&sbjtNm="+$("[name=sbjtNm]").val());
+            "&sbjtNm=" + $("[name=sbjtNm]").val());
         return false;
     });
     $("button#addButt").click(function () { //manual add
@@ -303,9 +269,13 @@ function yqlAjax(url, fn) {
                 fn(data);
             });
 }
+function addSyncIconOn(trg,size) {
+    $('<img />').addClass('sync').width(size?size:100).attr('src', './images/sync.png').appendTo(trg);
+}
 //return : 성공시 data, 실패시 null
 var extLoadData = null;
 function doExternalAjax(url) {
+    addSyncIconOn($('#searchButt').parent(),18);
     // assemble the YQL call
     yqlAjax(url,function (data) {
         if (!extLoadData) {
@@ -343,7 +313,7 @@ function doExternalAjax(url) {
             .replaceAll($("#searched"));
         
         extLoadData = true;
-        //extLoadData = data;
+        $('.sync').remove();
     });
 }
 function filterData(data,url) {
@@ -378,6 +348,7 @@ function doDetailPop(ltYy, haksuId) {
     window.open("http://kupis.konkuk.ac.kr/sugang/acd/cour/plan/CourLectureDetailInq.jsp?openYy=" + ltYy + "&haksuId=" + haksuId);
 }
 function doPop(ltYy, ltShtm, sbjtId) {
+    addSyncIconOn($("#searched tr td:nth-child(4):contains(" + sbjtId + ")").parent().find("td:last"),12);
     yqlAjax("http://kupis.konkuk.ac.kr/sugang/acd/cour/aply/CourInwonInqTime.jsp?ltYy=" + ltYy + "&ltShtm=" + ltShtm + "&sbjtId=" + sbjtId,
         function (data) {
             var table = $(data).find("table:last");
@@ -387,6 +358,7 @@ function doPop(ltYy, ltShtm, sbjtId) {
                 $("#searched tr td:nth-child(4):contains(" + sbjtId + ")").parent().find("td:last").html(cur + " / " + tot+" ").append(
                     $('<a href="javascript:" />').text('r').click(doPop(ltYy,ltShtm,sbjtId))
                 );
+            $('.sync').remove();
         }
     );
 }

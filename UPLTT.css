@@ -87,3 +87,10 @@ table#wanted th:nth-child(7) {
 table#wanted th:nth-child(8) {
     width:20%;
 }
+
+img.sync {
+    -webkit-animation: sync 1s infinite;
+}
+@-webkit-keyframes sync {
+    100% { -webkit-transform: rotate(360deg); }
+}
