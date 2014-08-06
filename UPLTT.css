@@ -7,11 +7,11 @@ p {
 input#sName {
     width:100px;
 }
-table#searched td {
-    padding:0;
-    margin:0;
-    font-size:12px;
-}
+    table#searched td {
+        padding:0;
+        margin:0;
+        font-size:12px;
+    }
 table tr:not(:first-child){
     height:10px;
 }
@@ -22,7 +22,7 @@ div#combine {
 table#resultTable {
     width:400px;
 }
-table#resultTable tr:not(:last-child) td:nth-child(2) {
-    text-align: left;
-    padding-left:10px;
-}
+    table#resultTable tr:not(:last-child) td:nth-child(2) {
+        text-align: left;
+        padding-left:10px;
+    }
