@@ -1,75 +1,127 @@
 <!DOCTYPE html>
 
-<html lang="ko" xmlns="http://www.w3.org/1999/xhtml">
-<head>
-    <meta charset="utf-8" />
-    <title></title>
-    <script src="./scripts/jquery-2.1.0.min.js"></script>
-    <script src="./scripts/jquery-collision.min.js"></script>
-    <script src="./scripts/UPLTT.js"></script>
-    <link rel="stylesheet" type="text/css" href="./UPLTT.css" />
+<html lang="ko" xmlns="http://www.w3.org/1999/xhtml"><head>
+  <meta charset="utf-8">
+  <title>UPLTT - Universal Personal Lecture Time Table</title>
+  <script src="./scripts/jquery-2.1.0.min.js"></script>
+  <script src="./scripts/jquery-collision.min.js"></script>
+  <script src="./scripts/UPLTT.js"></script>
+  <link rel="stylesheet" type="text/css" href="./UPLTT.css">
 </head>
 <body>
-  <div id="wantSelector">
-    <form id="searchForm">
-      <button id="searchButt">검색</button>
-    </form>
-    <table id="searched"></table>
-    <form id="addForm">
-      -수동추가 : 다른 학교 수업이나 검색되지 않는 수업을 추가합니다. ()는 선택사항이며, 동일 수업의 두 번째 일정을 추가할 때에는 *표시 된 정보만 채우시면 됩니다.<br />
-      과목번호*:<input id="no" size="3" />
-      과목명 :<input id="name" size="10" />
-      학점 :<input id="score" size="1" />
-      시간 :<input id="time" size="1" />
-      요일*:<input id="week" size="1" />
-      교시*:<input id="class" size="1" />
-      (강의실)*:<input id="room" size="6" />
-      (담당교수) :<input id="prof" size="4" />
-      (비고) :<input id="etc" size="1" />
-      (색) :<input id="color" size="1" />
-      <button id="addButt">추가</button>
-    </form>
-  </div>
-  <div id="combine">
-    -예비목록 : 위에서 듣고 싶은 과목들을 추가하면 여기에 표시됩니다. 아래 시간표와 연동됩니다.<br />
-    <table id="wanted">
-      <tr><th>선택</th><th>과목번호</th><th>교과목명</th><th>학점</th><th>시간</th><th>강의교시/강의실</th><th>담당교수</th><th>비고</th></tr>
-    </table>
-    -시간표 : 위에서 선택된 과목이 박스로 표시됩니다. 박스를 클릭하여 숨김/보임 하여 최적의 조합을 만듭니다.<br />
-    <table id="timeTable">
-      <tr><th>교시</th><td>월</td><td>화</td><td>수</td><td>목</td><td>금</td></tr>
-      <tr class="blankRow"><td>0</td><td></td><td></td><td></td><td></td><td></td></tr>
-      <tr class="blankRow"><td>1</td><td></td><td></td><td></td><td></td><td></td></tr>
-      <tr class="blankRow"><td>2</td><td></td><td></td><td></td><td></td><td></td></tr>
-      <tr class="blankRow"><td>3</td><td></td><td></td><td></td><td></td><td></td></tr>
-      <tr class="blankRow"><td>4</td><td></td><td></td><td></td><td></td><td></td></tr>
-      <tr class="blankRow"><td>5</td><td></td><td></td><td></td><td></td><td></td></tr>
-      <tr class="blankRow"><td>6</td><td></td><td></td><td></td><td></td><td></td></tr>
-      <tr class="blankRow"><td>7</td><td></td><td></td><td></td><td></td><td></td></tr>
-      <tr class="blankRow"><td>8</td><td></td><td></td><td></td><td></td><td></td></tr>
-      <tr class="blankRow"><td>9</td><td></td><td></td><td></td><td></td><td></td></tr>
-      <tr class="blankRow"><td>10</td><td></td><td></td><td></td><td></td><td></td></tr>
-      <tr class="blankRow"><td>11</td><td></td><td></td><td></td><td></td><td></td></tr>
-      <tr class="blankRow"><td>12</td><td></td><td></td><td></td><td></td><td></td></tr>
-      <tr class="blankRow"><td>13</td><td></td><td></td><td></td><td></td><td></td></tr>
-      <tr class="blankRow"><td>14</td><td></td><td></td><td></td><td></td><td></td></tr>
-      <tr class="blankRow"><td>15</td><td></td><td></td><td></td><td></td><td></td></tr>
-      <tr class="blankRow"><td>16</td><td></td><td></td><td></td><td></td><td></td></tr>
-      <tr class="blankRow"><td>17</td><td></td><td></td><td></td><td></td><td></td></tr>
-      <tr class="blankRow"><td>18</td><td></td><td></td><td></td><td></td><td></td></tr>
-      <tr class="blankRow"><td>19</td><td></td><td></td><td></td><td></td><td></td></tr>
-      <tr class="blankRow"><td>20</td><td></td><td></td><td></td><td></td><td></td></tr>
-    </table>
-  </div>
-  <div id="result">
-    -선택결과 : 시간표 및 예비목록에서 '보임'되어있는 과목만 보여줍니다. 학점 합산이 (학과별 최대이수학점+저번학기 잔여학점) 이하인지 확인하세요.
-    <table id="resultTable">
-      <tr><th>과목번호</th><th>교과목명</th><th>학점</th></tr>
-      <tr><td colspan="2">총 학점</td><td>0</td></tr>
-    </table>
-  </div>
-  <a href="javascript:window.open('http://kupis.konkuk.ac.kr/sugang/login/loginFset.jsp','_blank')">수강신청 페이지</a>
-  <script type="text/javascript">
+<script type="text/javascript">
+  function doPlanPop(ltYy,ltShtm,sbjtId) {
+    window.open("http://kupis.konkuk.ac.kr/sugang/acd/cour/plan/CourLecturePlanInq.jsp?ltYy=" + ltYy + "&ltShtm=" + ltShtm + "&sbjtId=" + sbjtId);
+  }
+</script>
+<style type="text/css">
+  table td, table th {
+    border:1px solid black;
+    text-align:center;
+  }
+  table tr:not(:first-child){
+    height:10px;
+  }
+  table#timeTable {
+    font-size:10pt;
+    font-family:"Malgun Gothic";
+    background-color: #fefefe;
+    width:100%;
+    margin:0;padding:0;
+  }
+  table#timeTable tr {
+    margin:0;
+    padding:0;
+  }
+  table#timeTable tr td {
+    margin:0;
+    padding:0;
+  }
+  table#timeTable tr td:first-child {
+    width:50px;
+  }
+  div.layer {
+    top:0;
+    color:black;
+    font-size:12px;
+    opacity:0.6;
+    background-image:linear-gradient(45deg, rgba(255, 255, 255, 0.2) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.2) 50%, rgba(255, 255, 255, 0.2) 75%, transparent 75%, transparent);
+    background-size:8px 8px;
+  }
+  table {
+    border-collapse:collapse;
+    width:100%;
+  }
+  @media print{
+    div#wantSelector{visibility:hidden; height:0;}
+    div#result{visibility:hidden;}
+    body>a{visibility:hidden;}
+  }
+</style>
+<div id="wantSelector"><select class="select" name="select" onchange=""><option value="http://www.konkuk.ac.kr/doc/info/yoram/2014/2014_yoram.pdf">2014학년도 국문 요람</option><option value="http://www.konkuk.ac.kr/doc/info/yoram/2013/2013_yoram.pdf">2013학년도 국문 요람</option><option value="http://www.konkuk.ac.kr/doc/info/yoram/2012/2012_yoram.pdf">2012학년도 국문 요람</option><option value="http://www.konkuk.ac.kr/doc/info/yoram/2011/2011_yoram.pdf">2011학년도 국문 요람</option><option value="http://www.konkuk.ac.kr/doc/info/yoram/2010/2010_yoram.pdf">2010학년도 국문 요람</option><option value="http://www.konkuk.ac.kr/doc/info/yoram/2009/2009_yoram.pdf">2009학년도 국문 요람</option><option value="http://www.konkuk.ac.kr/doc/info/yoram/2008/2008_yoram.pdf">2008학년도 국문 요람</option><option value="http://www.konkuk.ac.kr/doc/info/yoram/2007/2007_yoram.pdf">2007학년도 국문 요람</option><option value="http://www.konkuk.ac.kr/doc/info/yoram/2006/2006_yoram.pdf">2006학년도 국문 요람</option><option value="http://www.konkuk.ac.kr/doc/info/yoram/2005/HTML-File/index.htm">2005학년도 국문 요람</option><option value="http://www.konkuk.ac.kr/doc/info/yoram/2004/index.htm">2004학년도 국문 요람</option><option value="http://www.konkuk.ac.kr/doc/info/yoram/2003/korean/files/index.htm">2003학년도 국문 요람</option><option value="http://www.konkuk.ac.kr/doc/info/yoram/2002/korean/files/index.htm">2002학년도 국문 요람</option><option value="http://www.konkuk.ac.kr/doc/info/yoram/2001/korean/files/">2001학년도 국문 요람</option><option value="http://www.konkuk.ac.kr/doc/info/yoram/2000/korean/">2000학년도 국문 요람</option></select><a href="http://www.konkuk.ac.kr/doc/info/yoram/2014/2014_yoram.pdf" download="">다운로드</a><span>&nbsp;&nbsp;&nbsp;'요람 안에 수강신청의 모든 답이 있다.' -by sunbaenim</span>
+  <form id="searchForm"><p>* 년도 :           <select class="ctl_enabled" name="ltYy">                        <option value="2005">2005</option>            <option value="2006">2006</option>            <option value="2007">2007</option>            <option value="2008">2008</option>            <option value="2009">2009</option>            <option value="2010">2010</option>            <option value="2011">2011</option>            <option value="2012">2012</option>            <option value="2013">2013</option>            <option value="2014">2014</option>          </select> * 학기 :           <select class="ctl_enabled" name="ltShtm">                        <option value="B01011">1학기</option>            <option value="B01012">2학기</option>            <option value="B01014">여름학기</option>            <option value="B01015">겨울학기</option>          </select> * 수강학과 :           <select class="ctl_enabled" name="openSust">                        <option value="006751">전체대학</option>            <option value="103012">EU문화정보학전공</option>            <option value="121135">건축공학전공</option>            <option value="121134">건축설계전공</option>            <option value="121133">건축학부</option>            <option value="105561">경영·경영정보학부</option>            <option value="105541">경영대학</option>            <option value="105611">경영정보학전공</option>            <option value="105591">경영학전공</option>            <option value="103851">경제학전공</option>            <option value="122095">공예전공</option>            <option value="122080">공예학과</option>            <option value="105251">공통과학</option>            <option value="103751">공통사회</option>            <option value="105031">교육공학과</option>            <option value="121253">국어국문학과</option>            <option value="103901">국제무역학전공</option>            <option value="103912">국제비지니스학(연합전공)</option>            <option value="122063">국제학부</option>            <option value="003071">기계공학부</option>            <option value="003221">기계공학전공</option>            <option value="003491">기계설계학전공</option>            <option value="121174">기술경영학과</option>            <option value="122102">녹지환경계획학과</option>            <option value="122096">동물생명공학과</option>            <option value="122098">동물자원과학과</option>            <option value="121012">디스플레이공학(연계전공)</option>            <option value="121126">로봇공학</option>            <option value="102761">문과대학</option>            <option value="120720">문화콘텐츠</option>            <option value="121259">문화콘텐츠학과</option>            <option value="121242">물리학부</option>            <option value="121243">물리학전공</option>            <option value="122281">미디어커뮤니케이션학과</option>            <option value="122099">바이오산업공학과</option>            <option value="105521">법학과</option>            <option value="122101">보건환경과학과</option>            <option value="103741">부동산학과</option>            <option value="104601">분자생명공학전공</option>            <option value="104951">사범대학</option>            <option value="121257">사학과</option>            <option value="122100">사회환경시스템공학과</option>            <option value="122227">산업공학과</option>            <option value="122073">산업디자인전공</option>            <option value="103781">상경대학</option>            <option value="121181">생명공학전공</option>            <option value="122048">생명과학전공</option>            <option value="122047">생명과학특성학부</option>            <option value="122104">생명자원식품공학과</option>            <option value="122055">생물공학과</option>            <option value="103391">섬유공학과</option>            <option value="120726">소비자정보학과</option>            <option value="121218">소비자정보학전공</option>            <option value="105431">소프트웨어전공</option>            <option value="105091">수의예과</option>            <option value="105101">수의학과</option>            <option value="121260">수학과</option>            <option value="104991">수학교육과</option>            <option value="122071">시각·멀티미디어디자인전공</option>            <option value="122068">신산업융합학과</option>            <option value="121244">양자상및소자전공</option>            <option value="122093">영상전공</option>            <option value="121175">영어교육과</option>            <option value="121254">영어영문학과</option>            <option value="122094">영화전공</option>            <option value="122056">유기나노시스템공학과</option>            <option value="103022">유럽문화학</option>            <option value="122053">융합신소재공학과</option>            <option value="105011">음악교육과</option>            <option value="122103">응용생물과학과</option>            <option value="104591">응용생물과학전공</option>            <option value="103911">응용통계학과</option>            <option value="122074">의상디자인전공</option>            <option value="105121">이과대학</option>            <option value="105381">인터넷·미디어공학부</option>            <option value="104981">일어교육과</option>            <option value="122058">자율전공학부</option>            <option value="103271">전기공학과</option>            <option value="105371">전자공학부</option>            <option value="105441">전자공학전공</option>            <option value="105451">정보통신공학전공</option>            <option value="103611">정치대학</option>            <option value="103681">정치외교학전공</option>            <option value="121136">주거환경전공</option>            <option value="122065">중국통상·비즈니스전공</option>            <option value="121255">중어중문학과</option>            <option value="102931">중어중문학전공</option>            <option value="121263">지리학과</option>            <option value="121256">철학과</option>            <option value="105001">체육교육과</option>            <option value="120811">축산경영·유통경제학전공</option>            <option value="122097">축산식품공학과</option>            <option value="122072">커뮤니케이션디자인전공</option>            <option value="121258">커뮤니케이션학과</option>            <option value="103013">커뮤니케이션학전공</option>            <option value="105361">컴퓨터공학부</option>            <option value="105421">컴퓨터시스템전공</option>            <option value="122075">텍스타일디자인전공</option>            <option value="122216">토목공학과</option>            <option value="122049">특성화학부</option>            <option value="120933">항공우주정보시스템공학과</option>            <option value="103731">행정학전공</option>            <option value="122092">현대미술전공</option>            <option value="122054">화학공학과</option>            <option value="121261">화학과</option>            <option value="122215">환경공학과</option>            <option value="104581">환경과학전공</option>            <option value="103014">히브리ㆍ중동학전공</option>          </select>&nbsp;&nbsp; * 이수구분 :           <select class="ctl_enabled" name="pobtDiv" onchange="">                        <option value="B04044">전필</option>            <option value="B04045">전선</option>            <option value="B0404O">전기</option><!--  <OPTION VALUE="B04042" >선교</OPTION>-->            <option value="B04043">지교</option>            <option value="B04046">일선</option>            <option value="B04047">교직</option>            <option value="B0404P">기교</option>            <option value="B0404Y">핵교</option>            <option value="B0404Z">일교</option>            <option value="ALL">전체</option>          </select>&nbsp;&nbsp;</p><p style="display: none;">* 선교 과정영역 :             <select class="ctl_enabled" name="cultCorsFld">                            <option value="B45001">(기교)교양영어</option>              <option value="B45003">(기교)글쓰기1</option>              <option value="B45004">(기교)글쓰기2</option>              <option value="B42001">(핵교)인문과학영역</option>              <option value="B42002">(핵교)사회과학영역</option>              <option value="B42003">(핵교)자연과학영역</option>              <option value="B42004">(핵교)문화예술영역</option>              <option value="B42005">(핵교)기술융합영역</option>              <option value="B42006">(핵교)제2외국어영역</option>              <option value="B43001">(일교)언어교과영역</option>              <option value="B43002">(일교)인문과학영역</option>              <option value="B43003">(일교)사회과학영역</option>              <option value="B43004">(일교)자연과학영역</option>              <option value="B43005">(일교)예술및체육영역</option>              <option value="B43006">(일교)융복합영역</option>            </select></p><p>* 과목번호 :           <input class="ctl_enabled" maxlength="4" name="sbjtId" size="5" type="text">&nbsp;&nbsp;&nbsp;&nbsp; <!--          2007.01.22 학사관리팀(안수진선생) 요청사항.          종합강의시간표 과목명 조회조건에 추가함.        -->           * 과목명 :           <input class="ctl_enabled" maxlength="50" name="sbjtNm" size="20" type="text">&nbsp;&nbsp;&nbsp;&nbsp;                     &nbsp;&nbsp;                     &nbsp;&nbsp;                     <button id="searchButt" style="display: inline-block;">검색</button></p>
+
+  </form>
+  <table id="searched"></table>
+  <form id="addForm">
+    -수동추가 : 다른 학교 수업이나 검색되지 않는 수업을 추가합니다. ()는 선택사항이며, 동일 수업의 두 번째 일정을 추가할 때에는 *표시 된 정보만 채우시면 됩니다.<br>
+    과목번호*:<input id="no" size="3">
+    과목명 :<input id="name" size="10">
+    학점 :<input id="score" size="1">
+    시간 :<input id="time" size="1">
+    요일*:<input id="week" size="1">
+    교시*:<input id="class" size="1">
+    (강의실)*:<input id="room" size="6">
+    (담당교수) :<input id="prof" size="4">
+    (비고) :<input id="etc" size="1">
+    (색) :<input id="color" size="1">
+    <button id="addButt">추가</button>
+  </form>
+</div>
+<div id="combine">
+  <p>-예비목록 : 위에서 듣고 싶은 과목들을 추가하면 여기에 표시됩니다. 아래 시간표와 연동됩니다.</p>
+  <table id="wanted" style="font-size:12px; width:100%;">
+    <tbody><tr><th width="6%">선택</th><th width="8%">과목번호</th><th width="25%">교과목명</th><th width="3%">학점</th><th width="3%">시간</th><th width="30%">강의교시/강의실</th><th width="5%">담당교수</th><th width="20%">비고</th></tr>
+    </tbody></table>
+  <p>-시간표 : 위에서 선택된 과목이 박스로 표시됩니다. 박스를 클릭하여 숨김/보임 하여 최적의 조합을 만듭니다.</p>
+  <table id="timeTable">
+    <tbody><tr><th>교시</th><td>월</td><td>화</td><td>수</td><td>목</td><td>금</td><td>토</td></tr>
+    <tr class="blankRow"><td>0</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+    <tr class="blankRow"><td>1</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+    <tr class="blankRow"><td>2</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+    <tr class="blankRow"><td>3</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+    <tr class="blankRow"><td>4</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+    <tr class="blankRow"><td>5</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+    <tr class="blankRow"><td>6</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+    <tr class="blankRow"><td>7</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+    <tr class="blankRow"><td>8</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+    <tr class="blankRow"><td>9</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+    <tr class="blankRow"><td>10</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+    <tr class="blankRow"><td>11</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+    <tr class="blankRow"><td>12</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+    <tr class="blankRow"><td>13</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+    <tr class="blankRow"><td>14</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+    <tr class="blankRow"><td>15</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+    <tr class="blankRow"><td>16</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+    <tr class="blankRow"><td>17</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+    <tr class="blankRow"><td>18</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+    <tr class="blankRow"><td>19</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+    <tr class="blankRow"><td>20</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+    <tr class="blankRow"><td>21</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+    </tbody></table>
+</div>
+<div id="result">
+  -선택결과 : 시간표 및 예비목록에서 '보임'되어있는 과목만 보여줍니다. 학점 합산이 (학과별 최대이수학점+저번학기 잔여학점) 이하인지 확인하세요.
+  <table id="resultTable">
+    <tbody><tr><th>과목번호</th><th>교과목명</th><th>학점</th></tr>
+    <tr><td colspan="2">총 학점</td><td>0</td></tr>
+    </tbody></table>
+</div>
+<a href="javascript:OpenExportPage();">저장용 팝업페이지 열기</a><br>
+<a href="javascript:ConvertToExportPage();">저장용 페이지로 변환</a><br>
+<a href="javascript:window.open('http://kupis.konkuk.ac.kr/sugang/login/loginFset.jsp','_blank');">수강신청 페이지</a>
+
+<script type="text/javascript">
     (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
       (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
       m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
