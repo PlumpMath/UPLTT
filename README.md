@@ -12,8 +12,8 @@ No db nor files used to save user data that could be the target of cracking.
 Any commits for your own university/college/company sites are welcome.
 Please hack the UPLTT.js file to understand how it works on your own. Thanks.
 
-Stable latest version being served on http://175.125.183.116/school/UPLTT.html
-Any discussions may reply on http://175.125.183.116/joomla3/webapp/15-universial-personal-lecture-timetable.html
+Stable latest version being served on http://idea.sh/school/UPLTT.html
+Any discussions may reply on http://idea.sh/joomla3/webapp/15-universial-personal-lecture-timetable.html
 
 How to use
 ==========
