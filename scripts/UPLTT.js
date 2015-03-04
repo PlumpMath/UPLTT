@@ -134,7 +134,7 @@ function makeREST(arr){
 $(document).ready(function () {
   for (var i = 3; i >= 0; i--)
       for (var j = 0; j < 9; j++)
-          colorArr.push('hsl(' + (j * 36) + ',' + (100 - i * 20) + '%,' + (50 - i * 20) + '%)');
+          colorArr.push('hsla(' + (j * 36) + ',' + (100 - i * 20) + '%,' + (50 - i * 20) + '%,.5)');
   var url = 'http://kupis.konkuk.ac.kr/sugang/acd/cour/time/SeoulTimetableInfo.jsp';
   doExternalAjax(url);
   yqlAjax("http://www.konkuk.ac.kr/jsp/Intro/intro_05_02_tab01.jsp", function (data) {
