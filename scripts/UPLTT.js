@@ -32,7 +32,7 @@
   ).appendTo($('#wanted'));
 }
 function addLayer(col, row, len, color, text) {
-    console.log(col,row,len,color,text);
+  //console.log(col,row,len,color,text);
   if (col < 0 || col > 6) return false;
   if (row < 0 || row + len - 1 > 21) return false;
   if (color == null || color == '') return false;
@@ -109,7 +109,7 @@ function showResult() {
   var totalScr = 0;
   $('#wanted tr:not(:first) td:nth-child(1):contains("보임")').parent().each(function (i, r) {
     var tds = $('td', r);
-    console.log(window.td = tds);
+    //console.log(window.td = tds);
     var name = tds.eq(2).text();
     var no = tds.eq(1).text();
     if (Number($(r).css('opacity')) > 0.5 && $('table#resultTable tr:not(:first,:last) td:nth-child(1):contains(' + no + ')').size() == 0) {
@@ -232,7 +232,7 @@ function formatStr(str) {
 }
 function addThisLine(e) {
     var tds = $(e.target).parent().parent().find('td');
-    console.log(window.tds=tds);
+    //console.log(window.tds=tds);
     var no = tds.eq(3).text();
     var title = tds.eq(4).find(':first').clone();
     var scr = Number(tds.eq(5).text());
