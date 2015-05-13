@@ -4,7 +4,7 @@
       .append($('<a href="javascript:">보임</a>').css('margin', '0 5px 0 5px').click(function () {
         var isHiding = $(this).text() == '보임';
         $(this).text(isHiding ? '숨김' : '보임');
-        $('#timeTable .layer:contains(' + no + ')').css('opacity',isHiding ? '0.2' : '0.6');
+        $('#timeTable .layer:contains(' + no + ')').css('opacity',isHiding ? '.5' : '1');
         showResult();
       }))
       .append($('<a href="javascript:">삭제</a>').css('margin', '0 5px 0 5px').click(function () {
@@ -32,6 +32,7 @@
   ).appendTo($('#wanted'));
 }
 function addLayer(col, row, len, color, text) {
+    console.log(col,row,len,color,text);
   if (col < 0 || col > 6) return false;
   if (row < 0 || row + len - 1 > 21) return false;
   if (color == null || color == '') return false;
@@ -97,8 +98,8 @@ function HideToggleGrp() {
   var txt = $(this).text();
   var no = txt.split(' ')[0];
   var trg = $('div.layer:contains(' + no + ')');
-  var isHiding=Number($(this).css('opacity')) > 0.4;
-  trg.css('opacity',  isHiding? '0.2' : '0.6');
+  var isHiding=Number($(this).css('opacity')) > 0.5;
+  trg.css('opacity',  isHiding? '.5' : '1');
   //trg.css("color",isHiding?"black":"white");
   $('#wanted tr:not(:first) td:nth-child(2):contains(' + no + ')').parent().find('td:first a:first').text(isHiding ? '숨김' : '보임');
   showResult();
@@ -107,10 +108,12 @@ function showResult() {
   $('table#resultTable tr:not(:first,:last)').remove();
   var totalScr = 0;
   $('#wanted tr:not(:first) td:nth-child(1):contains("보임")').parent().each(function (i, r) {
-    var name = $(r).find('td:eq(2)').text();
-    var no = $(r).find('td:eq(1)').text();
-    if (Number($(r).css('opacity')) > 0.4 && $('table#resultTable tr:not(:first,:last) td:nth-child(1):contains(' + no + ')').size() == 0) {
-      var scr = Number($(r).find('td:eq(3)').text());
+    var tds = $('td', r);
+    console.log(window.td = tds);
+    var name = tds.eq(2).text();
+    var no = tds.eq(1).text();
+    if (Number($(r).css('opacity')) > 0.5 && $('table#resultTable tr:not(:first,:last) td:nth-child(1):contains(' + no + ')').size() == 0) {
+      var scr = Number(tds.eq(3).text());
       $('table#resultTable tr:last').before(
         $('<tr />').append(
           $('<td />').text(no),
@@ -181,6 +184,7 @@ $(document).ready(function () {
         var time = Number(form.find("#time").val());
         var cls=Number(form.find("#class").val());
         var weekClassRoom = week + cls + "-" + (time + cls) + (room == "" ? "" : "(" + room + ")");
+
         if (find.size() > 0) {
             color = $("#timeTable .layer:contains(" + no + "):first").css("background-color");
             name = find.find("td:eq(2)").text();
@@ -227,15 +231,16 @@ function formatStr(str) {
     };
 }
 function addThisLine(e) {
-    var tr = $(e.target).parent().parent();
-    var no = tr.find("td:eq(3) :first").text();
-    var title = tr.find("td:eq(4) :first").clone();
-    var scr = Number(tr.find("td:eq(5) :first").text());
-    var time = Number(tr.find("td:eq(6) :first").text());
-    var prof = tr.find("td:eq(9) :first").text();
-    var etc = tr.find("td:eq(14) :first").text();
+    var tds = $(e.target).parent().parent().find('td');
+    console.log(window.tds=tds);
+    var no = tds.eq(3).text();
+    var title = tds.eq(4).find(':first').clone();
+    var scr = Number(tds.eq(5).text());
+    var time = Number(tds.eq(6).text());
+    var prof = tds.eq(9).text();
+    var etc = tds.eq(14).text();
     var color = colorArr.pop();
-    var dayTimeRoom = tr.find("td:eq(8) :first").text();
+    var dayTimeRoom = tds.eq(8).text();
     var arr = dayTimeRoom.split(",");
     var item = null,rst=false;
     while (item = arr.pop()) {
@@ -246,7 +251,7 @@ function addThisLine(e) {
             ans.startClass,
             time,
             color,
-            no + " " + title.first().text() + " " + ans.room) : true;
+            no + " " + title.text() + " " + ans.room) : true;
         /* how data fills form */
         /*$("#addForm input#name").val(no + " " + title + " " + ans.room);
         $("#addForm input#week").val(ans.day);
@@ -270,7 +275,7 @@ function yqlAjax(url, fn, xpath) {
                 if (data.query.results)
                     data = data.query.results;*/
                     //data = filterData(data.results[0],url);
-                console.log(window.d = data);
+                //console.log(window.d = data);
                 //if (data.results[0])
                 if (data.results)
                     data = data.results//filterData(data.results[0],url);
@@ -293,7 +298,8 @@ function doExternalAjax(url) {
                     $("select[name=cultCorsFld]").parent().show();
                 else
                     $("select[name=cultCorsFld]").parent().hide();
-            }).end() //이수구분
+            }).find('option:last').prop('selected', true).end()
+                .end() //이수구분
                 .find('option:contains("선택")').remove().end()
                 .find('[name=ltYy] option:last').prop("selected", true).end()
                 .find(':button').remove().end() //remove all jscripted buttons
