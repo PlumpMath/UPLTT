@@ -1,74 +1,126 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 
 <html lang="ko" xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="utf-8" />
-    <title></title>
+    <title>UPLTT - Universal Personal Lecture Time Table</title>
     <script src="./scripts/jquery-2.1.0.min.js"></script>
     <script src="./scripts/jquery-collision.min.js"></script>
     <script src="./scripts/UPLTT.js"></script>
     <link rel="stylesheet" type="text/css" href="./UPLTT.css" />
 </head>
 <body>
-  <div id="wantSelector">
-    <form id="searchForm">
-      <button id="searchButt">검색</button>
-    </form>
-    <table id="searched"></table>
-    <form id="addForm">
-      -수동추가 : 다른 학교 수업이나 검색되지 않는 수업을 추가합니다. ()는 선택사항이며, 동일 수업의 두 번째 일정을 추가할 때에는 *표시 된 정보만 채우시면 됩니다.<br />
-      과목번호*:<input id="no" size="3" />
-      과목명 :<input id="name" size="10" />
-      학점 :<input id="score" size="1" />
-      시간 :<input id="time" size="1" />
-      요일*:<input id="week" size="1" />
-      교시*:<input id="class" size="1" />
-      (강의실)*:<input id="room" size="6" />
-      (담당교수) :<input id="prof" size="4" />
-      (비고) :<input id="etc" size="1" />
-      (색) :<input id="color" size="1" />
-      <button id="addButt">추가</button>
-    </form>
-  </div>
-  <div id="combine">
-    -예비목록 : 위에서 듣고 싶은 과목들을 추가하면 여기에 표시됩니다. 아래 시간표와 연동됩니다.<br />
-    <table id="wanted">
-      <tr><th>선택</th><th>과목번호</th><th>교과목명</th><th>학점</th><th>시간</th><th>강의교시/강의실</th><th>담당교수</th><th>비고</th></tr>
-    </table>
-    -시간표 : 위에서 선택된 과목이 박스로 표시됩니다. 박스를 클릭하여 숨김/보임 하여 최적의 조합을 만듭니다.<br />
-    <table id="timeTable">
-      <tr><th>교시</th><td>월</td><td>화</td><td>수</td><td>목</td><td>금</td></tr>
-      <tr class="blankRow"><td>0</td><td></td><td></td><td></td><td></td><td></td></tr>
-      <tr class="blankRow"><td>1</td><td></td><td></td><td></td><td></td><td></td></tr>
-      <tr class="blankRow"><td>2</td><td></td><td></td><td></td><td></td><td></td></tr>
-      <tr class="blankRow"><td>3</td><td></td><td></td><td></td><td></td><td></td></tr>
-      <tr class="blankRow"><td>4</td><td></td><td></td><td></td><td></td><td></td></tr>
-      <tr class="blankRow"><td>5</td><td></td><td></td><td></td><td></td><td></td></tr>
-      <tr class="blankRow"><td>6</td><td></td><td></td><td></td><td></td><td></td></tr>
-      <tr class="blankRow"><td>7</td><td></td><td></td><td></td><td></td><td></td></tr>
-      <tr class="blankRow"><td>8</td><td></td><td></td><td></td><td></td><td></td></tr>
-      <tr class="blankRow"><td>9</td><td></td><td></td><td></td><td></td><td></td></tr>
-      <tr class="blankRow"><td>10</td><td></td><td></td><td></td><td></td><td></td></tr>
-      <tr class="blankRow"><td>11</td><td></td><td></td><td></td><td></td><td></td></tr>
-      <tr class="blankRow"><td>12</td><td></td><td></td><td></td><td></td><td></td></tr>
-      <tr class="blankRow"><td>13</td><td></td><td></td><td></td><td></td><td></td></tr>
-      <tr class="blankRow"><td>14</td><td></td><td></td><td></td><td></td><td></td></tr>
-      <tr class="blankRow"><td>15</td><td></td><td></td><td></td><td></td><td></td></tr>
-      <tr class="blankRow"><td>16</td><td></td><td></td><td></td><td></td><td></td></tr>
-      <tr class="blankRow"><td>17</td><td></td><td></td><td></td><td></td><td></td></tr>
-      <tr class="blankRow"><td>18</td><td></td><td></td><td></td><td></td><td></td></tr>
-      <tr class="blankRow"><td>19</td><td></td><td></td><td></td><td></td><td></td></tr>
-      <tr class="blankRow"><td>20</td><td></td><td></td><td></td><td></td><td></td></tr>
-    </table>
-  </div>
-  <div id="result">
-    -선택결과 : 시간표 및 예비목록에서 '보임'되어있는 과목만 보여줍니다. 학점 합산이 (학과별 최대이수학점+저번학기 잔여학점) 이하인지 확인하세요.
-    <table id="resultTable">
-      <tr><th>과목번호</th><th>교과목명</th><th>학점</th></tr>
-      <tr><td colspan="2">총 학점</td><td>0</td></tr>
-    </table>
-  </div>
-  <a href="javascript:window.open('http://kupis.konkuk.ac.kr/sugang/login/loginFset.jsp','_blank')">수강신청 페이지</a>
+    <script type="text/javascript">
+        function doPlanPop(ltYy,ltShtm,sbjtId) {
+            window.open("http://kupis.konkuk.ac.kr/sugang/acd/cour/plan/CourLecturePlanInq.jsp?ltYy=" + ltYy + "&ltShtm=" + ltShtm + "&sbjtId=" + sbjtId);
+        }
+    </script>
+    <style type="text/css">
+        table td, table th {
+            border:1px solid black;
+            text-align:center;
+        }
+        table tr:not(:first-child){
+            height:10px;
+        }
+        table#timeTable {
+            font-size:10pt;
+            font-family:"Malgun Gothic";
+            background-color: #fefefe;
+            width:100%;
+            margin:0;padding:0;
+        }
+        table#timeTable tr {
+            margin:0;
+            padding:0;
+        }
+        table#timeTable tr td {
+            margin:0;
+            padding:0;
+        }
+        table#timeTable tr td:first-child {
+            width:50px;
+        }
+        div.layer {
+            top:0;
+            color:black;
+            font-size:12px;
+            background-image:linear-gradient(45deg, rgba(255, 255, 255, .5) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .5) 50%, rgba(255, 255, 255, .5) 75%, transparent 75%, transparent);
+            background-size:8px 8px;
+        }
+        table {
+            border-collapse:collapse;
+            width:100%;
+        }
+      @media print{
+        div#wantSelector{visibility:hidden; height:0;}
+        div#result{visibility:hidden;}
+        body>a{visibility:hidden;}
+      }
+    </style>
+    <div id="wantSelector">
+        <form id="searchForm">
+            <button id="searchButt">검색</button>
+        </form>
+        <table id="searched"></table>
+        <form id="addForm">
+            -수동추가 : 다른 학교 수업이나 검색되지 않는 수업을 추가합니다. ()는 선택사항이며, 동일 수업의 두 번째 일정을 추가할 때에는 *표시 된 정보만 채우시면 됩니다.<br />
+            과목번호*:<input id="no" size="3" />
+            과목명 :<input id="name" size="10" />
+            학점 :<input id="score" size="1" />
+            시간 :<input id="time" size="1" />
+            요일*:<input id="week" size="1" />
+            교시*:<input id="class" size="1" />
+            (강의실)*:<input id="room" size="6" />
+            (담당교수) :<input id="prof" size="4" />
+            (비고) :<input id="etc" size="1" />
+            (색) :<input id="color" size="1" />
+            <button id="addButt">추가</button>
+        </form>
+    </div>
+    <div id="combine">
+        <p>-예비목록 : 위에서 듣고 싶은 과목들을 추가하면 여기에 표시됩니다. 아래 시간표와 연동됩니다.</p>
+        <table id="wanted" style="font-size:12px; width:100%;">
+            <tr><th width="6%">선택</th><th width="8%">과목번호</th><th width="25%">교과목명</th><th width="3%">학점</th><th width="3%">시간</th><th width="30%">강의교시/강의실</th><th width="5%">담당교수</th><th width="20%">비고</th></tr>
+        </table>
+        <p>-시간표 : 위에서 선택된 과목이 박스로 표시됩니다. 박스를 클릭하여 숨김/보임 하여 최적의 조합을 만듭니다.</p>
+        <table id="timeTable">
+            <tr><th>시각</th><td>월</td><td>화</td><td>수</td><td>목</td><td>금</td><td>토</td></tr>
+            <tr class="blankRow"><td>8:00</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+            <tr class="blankRow"><td>9:00</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+            <tr class="blankRow"><td>9:30</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+            <tr class="blankRow"><td>10:00</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+            <tr class="blankRow"><td>10:30</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+            <tr class="blankRow"><td>11:00</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+            <tr class="blankRow"><td>11:30</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+            <tr class="blankRow"><td>12:00</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+            <tr class="blankRow"><td>12:30</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+            <tr class="blankRow"><td>13:00</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+            <tr class="blankRow"><td>13:30</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+            <tr class="blankRow"><td>14:00</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+            <tr class="blankRow"><td>14:30</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+            <tr class="blankRow"><td>15:00</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+            <tr class="blankRow"><td>15:30</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+            <tr class="blankRow"><td>16:00</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+            <tr class="blankRow"><td>16:30</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+            <tr class="blankRow"><td>17:00</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+            <tr class="blankRow"><td>17:30</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+            <tr class="blankRow"><td>18:15</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+            <tr class="blankRow"><td>19:00</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+            <tr class="blankRow"><td>19:45</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+        </table>
+    </div>
+    <div id="result">
+        -선택결과 : 시간표 및 예비목록에서 '보임'되어있는 과목만 보여줍니다. 학점 합산이 (학과별 최대이수학점+저번학기 잔여학점) 이하인지 확인하세요.
+        <table id="resultTable">
+            <tr><th>과목번호</th><th>교과목명</th><th>학점</th></tr>
+            <tr><td colspan="2">총 학점</td><td>0</td></tr>
+        </table>
+    </div>
+    <a href="javascript:OpenExportPage();">저장용 팝업페이지 열기</a><br />
+    <a href="javascript:ConvertToExportPage();">저장용 페이지로 변환</a><br />
+    <a href="javascript:window.open('http://kupis.konkuk.ac.kr/sugang/login/loginFset.jsp','_blank');">수강신청 페이지</a>
+    </body>
   <script type="text/javascript">
     (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
       (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
@@ -79,7 +131,5 @@
     ga('require', 'displayfeatures');
     ga('require', 'linkid', 'linkid.js');
     ga('send', 'pageview');
-
   </script>
-</body>
 </html>

@@ -1,4 +1,4 @@
-﻿function addWanted(no, name, score, time, dayTimeRoom, prof, etc) {
+﻿﻿function addWanted(no, name, score, time, dayTimeRoom, prof, etc) {
     $("<tr />").append(
         $("<td />")
             .append($('<a href="javascript:">보임</a>').css("margin", "0 5px 0 5px").click(function () {
