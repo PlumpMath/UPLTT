@@ -279,7 +279,7 @@ function yqlAjax(url, fn, xpath) {
             });
 }
 function addSyncIconOn(trg,size) {
-    $('<img />').addClass('sync').width(size?size:100).attr('src', './images/sync.png').appendTo(trg);
+    $('<img />').addClass('sync').width(size?size:100).attr('src', './images/loading.gif').appendTo(trg);
 }
 //return : 성공시 data, 실패시 null
 var extLoadData = null;
