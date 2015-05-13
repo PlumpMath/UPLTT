@@ -139,23 +139,24 @@ $(document).ready(function () {
     var url = 'http://kupis.konkuk.ac.kr/sugang/acd/cour/time/SeoulTimetableInfo.jsp';
     doExternalAjax(url);
     yqlAjax("http://www.konkuk.ac.kr/jsp/Intro/intro_05_02_tab01.jsp", function (data) {
+        //console.debug(window.db= data);
         var trg = $("#wantSelector"); //요람
-        var select = $(data).find("table tr:first select");
+        var select = $(data);
         if(select.text())
-        select.attr("onchange", "").change(function () {
-            var url = $(this).find(":selected").val();
-            var a = $(this).parent().find("a:first");
-            a.attr("href", url);
-            if (url.substr(-4) == ".pdf")
-                a.attr("download", "")
-                    .removeAttr("target")
-                    .text("다운로드");
-            else 
-                a.removeAttr("download")
-                        .attr("target","_blank")
-                        .text("열기");
-        })
-            .find("option:first").remove().end()
+            select.attr("onchange", "").change(function () {
+                var url = $(this).find(":selected").val();
+                var a = $(this).parent().find("a:first");
+                a.attr("href", url);
+                if (url.substr(-4) == ".pdf")
+                    a.attr("download", "")
+                        .removeAttr("target")
+                        .text("다운로드");
+                else
+                    a.removeAttr("download")
+                            .attr("target","_blank")
+                            .text("열기");
+            })
+            .find('option:first').remove().end()
             .prependTo(trg);
 
         //var lastYoram=select.find("option:last");
@@ -163,7 +164,7 @@ $(document).ready(function () {
         $("<a />").insertAfter(select)
             .after($("<span>&nbsp;&nbsp;&nbsp;'요람 안에 수강신청의 모든 답이 있다.' -by sunbaenim</span>"));
         select.find("option:last").prop("selected", true).change();
-    });
+    },'//select[@name="select"]');
     $("button#searchButt").hide().click(function () {
         //ltYy=&ltShtm=&openSust=&pobtDiv=&cultCorsFld=&sbjtId=&sbjtNm=
         doExternalAjax(url + makeREST(["ltYy","ltShtm","openSust","pobtDiv"])+"sbjtId="+$("[name=sbjtId]").val()+
@@ -259,13 +260,21 @@ function addThisLine(e) {
         colorArr.push(color);
 }
 //yahoo yql을 이용한 외부페이지 로드
-function yqlAjax(url, fn) {
+function yqlAjax(url, fn, xpath) {
+    // https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20html%20where%20url%3D%22http%3A%2F%2Fwww.konkuk.ac.kr%2Fjsp%2FIntro%2Fintro_05_02_tab01.jsp%22%20and%20xpath%3D'%2F%2Fselect'&format=json&diagnostics=true&callback=
     return $.getJSON("http://query.yahooapis.com/v1/public/yql?q=" +
-        encodeURIComponent("select * from html where url=\"" + url + "\"") +
-            "&format=xml'&callback=?", function (data) {
-                if (data.results[0])
-                    data = filterData(data.results[0],url);
-                
+        encodeURIComponent('select * from html where url="' + url + '"' + (xpath? " and xpath='"+xpath+"'" : '')) +
+            '&format=xml&callback=?', function (data) {
+                /* //JSON format
+                console.log(data.query.results);
+                if (data.query.results)
+                    data = data.query.results;*/
+                    //data = filterData(data.results[0],url);
+                console.log(window.d = data);
+                //if (data.results[0])
+                if (data.results)
+                    data = data.results//filterData(data.results[0],url);
+                if (data.length == 1) data = data[0]
                 fn(data);
             });
 }
@@ -277,10 +286,9 @@ var extLoadData = null;
 function doExternalAjax(url) {
     addSyncIconOn($('#searchButt').parent(),18);
     // assemble the YQL call
-    yqlAjax(url,function (data) {
-        if (!extLoadData) {
-            var needed = $(data).find("table:first p");
-            needed.find("[name=pobtDiv]").attr("onchange", "").change(function () {
+    if (!extLoadData)
+        yqlAjax(url,function (data) {
+            $(data[0]).find("[name=pobtDiv]").attr("onchange", "").change(function () {
                 if (["기교", "핵교", "일교"].indexOf($(this).find("option:selected").text()) >= 0)
                     $("select[name=cultCorsFld]").parent().show();
                 else
@@ -292,8 +300,12 @@ function doExternalAjax(url) {
                 .prependTo($("#searchForm"))
                 .find("select[name=pobtDiv]").change().end() //cuz upperlines makes pobt value changed
                 .last().append($("#searchForm button").detach().show());
-        } else
-            $(data).find("table:last").attr("id", "searched")
+            extLoadData = true;
+            $('.sync').remove();
+        },'//table[1]');
+    else
+        yqlAjax(url, function(data){
+            $(data[data.length-1]).attr("id", "searched")
                 .find("tr:first").prepend($("<td>선택</td>"))
                     .find("td").removeAttr("width").end()
                 .nextAll().each(function(i,r){
@@ -311,10 +323,8 @@ function doExternalAjax(url) {
                 }).end()
                 .parent().parent()
             .replaceAll($("#searched"));
-        
-        extLoadData = true;
         $('.sync').remove();
-    });
+    },'//table[last()]');
 }
 function filterData(data,url) {
     // filter all the nasties out
