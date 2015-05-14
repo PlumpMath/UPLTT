@@ -377,7 +377,7 @@ function doPop(ltYy, ltShtm, sbjtId) {
     );
 }
 function ConvertTarget(){
-    $('#wanted td:contains("숨김") a:nth-child(1)').click();
+    $('#wanted td:contains("숨김") a:nth-child(2)').click();
     var rst=$('#combine').clone().prepend($('body style').clone()).prepend($('body script').clone());
     $('#timeTable',rst).after($('#wanted',rst));
     $('#wanted',rst).before($('p:first',rst).text('-예비목록'));
