@@ -148,6 +148,7 @@ $(document).ready(function () {
             select.attr("onchange", "").change(function () {
                 var url = $(this).find(":selected").val();
                 var a = $(this).parent().find("a:first");
+                url = 'http://www.konkuk.ac.kr' + url.substr(url.search(/[^/:]\/./) + 1)
                 a.attr("href", url);
                 if (url.substr(-4) == ".pdf")
                     a.attr("download", "")
